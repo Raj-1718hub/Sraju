@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsive Web Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #141313;
+      color: white;
+      padding: 1em;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background-color: #779ca6;
+      padding: 1em;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .form-section, .todo-section, .gallery-section {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    form input[type="text"],
+    form input[type="email"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    form input[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    ul, .gallery {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    ul li, .gallery img {
+      margin: 10px 0;
+    }
+
+    .gallery img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Responsive Web Page</h1>
+  </header>
+  <nav>
+    <a href="#form">Form</a>
+    <a href="#todo">To-Do</a>
+    <a href="#gallery">Gallery</a>
+  </nav>
+  <div class="container">
+    <!-- Form Section -->
+    <div class="form-section" id="form">
+      <h2>Contact Form</h2>
+      <form id="contactForm">
+        <input type="text" id="name" placeholder="Enter your Name" required />
+        <input type="email" id="email" placeholder="Enter your Email" required />
+        <inputtype="password" id="password" placeholder="Enter your Password" required/>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+
+    <!-- To-Do Section -->
+    <div class="todo-section" id="todo">
+      <h2>To-Do List</h2>
+      <input type="text" id="todoInput" placeholder="New Task" />
+      <button onclick="addTodo()">Add Task</button>
+      <ul id="todoList"></ul>
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="gallery-section" id="gallery">
+      <h2>Image Gallery</h2>
+      <input type="text" id="imgUrl" placeholder="Image URL" />
+      <button onclick="addImage()">Add Image</button>
+      <div class="gallery" id="galleryList"></div>
+    </div>
+  </div>
+
+  <script>
+    // Form validation
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!name || !email) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      if (!emailRegex.test(email)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      alert('Form submitted successfully!');
+    });
+
+    // To-do list
+    function addTodo() {
+      const input = document.getElementById('todoInput');
+      const text = input.value.trim();
+      if (text) {
+        const li = document.createElement('li');
+        li.textContent = text;
+        li.onclick = () => li.remove();
+        document.getElementById('todoList').appendChild(li);
+        input.value = '';
+      }
+    }
+
+    // Image gallery
+    function addImage() {
+      const url = document.getElementById('imgUrl').value.trim();
+      if (url) {
+        const img = document.createElement('img');
+        img.src = url;
+        img.onclick = () => img.remove();
+        document.getElementById('galleryList').appendChild(img);
+        document.getElementById('imgUrl').value = '';
+      }
+    }
+    // To-Do List functionality
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const taskList = document.getElementById('taskList');
+      const taskText = taskInput.value.trim();
+      if (taskText === '') return;
+
+      const li = document.createElement('li');
+      li.textContent = taskText + ' ';
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = 'Remove';
+      removeBtn.className = 'remove-btn';
+      removeBtn.onclick = function () {
+        taskList.removeChild(li);
+      };
+      li.appendChild(removeBtn);
+      taskList.appendChild(li);
+      taskInput.value = '';
+    }
+  </script>
+</body>
+</html>
